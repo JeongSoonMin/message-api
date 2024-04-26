@@ -1,8 +1,10 @@
 package ai.fassto.messageapi.model;
 
+import ai.fassto.messageapi.global.exception.handler.ErrorCode;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
@@ -13,7 +15,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class CommonResponse<T> {
 
-    private Integer resultCode;
+    private String resultCode;
     private String message;
     private T data;
 
@@ -41,17 +43,17 @@ public class CommonResponse<T> {
                 .body(toSuccessCommonResponse(mono), mono.getClass());
     }
 
-    public static Mono<CommonResponse<Object>> toSuccessCommonResponse(Flux<?> tFlux) {
+    private static Mono<CommonResponse<Object>> toSuccessCommonResponse(Flux<?> tFlux) {
         return Flux.merge(tFlux)
                 .collectList()
                 .flatMap(CommonResponse::successFluxToMono);
     }
 
-    public static Mono<CommonResponse<Object>> toSuccessCommonResponse(Mono<?> tMono) {
+    private static Mono<CommonResponse<Object>> toSuccessCommonResponse(Mono<?> tMono) {
         return tMono.map(CommonResponse::success);
     }
 
-    public static Mono<CommonResponse<Object>> toSuccessCommonResponseVoid(Mono<Void> tMono) {
+    private static Mono<CommonResponse<Object>> toSuccessCommonResponseVoid(Mono<Void> tMono) {
         return tMono.then(Mono.fromCallable(() -> CommonResponse.success(null)));
     }
 
@@ -61,8 +63,22 @@ public class CommonResponse<T> {
 
     private static CommonResponse<Object> success(Object data) {
         return CommonResponse.builder()
-                .resultCode(200)
+                .resultCode(HttpStatus.OK.name())
                 .message("SUCCESS")
+                .data(data)
+                .build();
+    }
+
+    public static Mono<ServerResponse> fail(ErrorCode errorCode, Object data) {
+        return ServerResponse.status(errorCode.getStatus())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(fail(errorCode.name(), errorCode.getMessage(), data)), CommonResponse.class);
+    }
+
+    private static CommonResponse<Object> fail(String resultCode, String message, Object data) {
+        return CommonResponse.builder()
+                .resultCode(resultCode)
+                .message(message)
                 .data(data)
                 .build();
     }
