@@ -1,0 +1,13 @@
+
+fassto:
+  mongodb:
+    base-cluster:
+      database: base
+      username: base
+      password: base1234!@
+      write:
+        host: localhost
+        port: 27017
+      read-only:
+        host: localhost
+        port: 27018

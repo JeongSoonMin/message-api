@@ -1,0 +1,8 @@
+server:
+  port: 9900
+
+spring:
+  application:
+    name: message-api
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration,org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
