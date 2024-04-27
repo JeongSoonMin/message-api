@@ -1,9 +1,12 @@
 package ai.fassto.messageapi.handler;
 
 import ai.fassto.messageapi.entity.Sample;
+import ai.fassto.messageapi.global.exception.SampleException;
+import ai.fassto.messageapi.global.exception.handler.ErrorCode;
 import ai.fassto.messageapi.model.CommonResponse;
 import ai.fassto.messageapi.model.SampleRequest.SampleAddRequest;
 import ai.fassto.messageapi.model.SampleRequest.SampleModifyRequest;
+import ai.fassto.messageapi.model.SampleResponse;
 import ai.fassto.messageapi.model.SampleResponse.SampleAddResponse;
 import ai.fassto.messageapi.model.SampleResponse.SampleModifyResponse;
 import ai.fassto.messageapi.repository.SampleRepository;
@@ -37,37 +40,37 @@ public class SampleHandler {
 
     public Mono<ServerResponse> sampleModify(ServerRequest request) {
         Mono<Sample> sampleMono = sampleRepository.findById(request.pathVariable("sampleId"))
-                .switchIfEmpty(Mono.error(new NotFoundException()));
+                .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND)));
         Mono<SampleModifyRequest> sampleModifyRequestMono = request.bodyToMono(SampleModifyRequest.class);
 
         return CommonResponse.ok(Mono.zip(
-                        (data) -> {
-                            Sample db = (Sample) data[0];
-                            SampleModifyRequest param = (SampleModifyRequest) data[1];
-                            db.setName(param.sampleName());
-                            db.setDesc(param.sampleDescription());
-                            return db;
-                        },
-                        sampleMono,
-                        sampleModifyRequestMono
-                )
-                .cast(Sample.class)
-                .flatMap(this.sampleRepository::save)
-                .map(SampleModifyResponse::of)
+                                (data) -> {
+                                    Sample db = (Sample) data[0];
+                                    SampleModifyRequest param = (SampleModifyRequest) data[1];
+                                    db.setName(param.sampleName());
+                                    db.setDesc(param.sampleDescription());
+                                    return db;
+                                },
+                                sampleMono,
+                                sampleModifyRequestMono
+                        )
+                        .cast(Sample.class)
+                        .flatMap(this.sampleRepository::save)
+                        .map(SampleModifyResponse::of)
         );
     }
 
-    public Mono<ServerResponse> sampleRemove(ServerRequest request) {
+    public Mono<ServerResponse> sampleRemove2(ServerRequest request) {
         String id = request.pathVariable("sampleId");
         return CommonResponse.okVoid(sampleRepository.deleteById(id)
-                .switchIfEmpty(Mono.error(new NotFoundException())));
+                .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND))));
     }
 
-    public Mono<ServerResponse> sampleRemove2(ServerRequest request) {
-        sampleRepository.findById(request.pathVariable("sampleId"))
-                .switchIfEmpty(Mono.error(new NotFoundException()))
-                .map(sampleRepository::delete);
-        return CommonResponse.ok();
+    public Mono<ServerResponse> sampleRemove(ServerRequest request) {
+        return sampleRepository.findById(request.pathVariable("sampleId"))
+                .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND, new SampleResponse.SampleRemoveResponse(request.pathVariable("sampleId")))))
+                .map(sampleRepository::delete)
+                .then(CommonResponse.ok());
     }
 
 }

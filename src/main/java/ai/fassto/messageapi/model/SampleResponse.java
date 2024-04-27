@@ -20,4 +20,8 @@ public record SampleResponse() {
             return new SampleModifyResponse(sample.getId());
         }
     }
+
+    public record SampleRemoveResponse(
+            String sampleId
+    ) {}
 }

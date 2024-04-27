@@ -1,5 +1,5 @@
 
-fassto:
+application:
   mongodb:
     base-cluster:
       database: base

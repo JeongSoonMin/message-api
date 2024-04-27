@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "fassto.mongodb.base-cluster")
+@ConfigurationProperties(prefix = "application.mongodb.base-cluster")
 @Data
 public class BaseMongoProperties {
     private MongoProperties write;

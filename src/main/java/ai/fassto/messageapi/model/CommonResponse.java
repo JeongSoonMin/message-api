@@ -69,13 +69,13 @@ public class CommonResponse<T> {
                 .build();
     }
 
-    public static Mono<ServerResponse> fail(ErrorCode errorCode, Object data) {
-        return ServerResponse.status(errorCode.getStatus())
+    public static Mono<ServerResponse> build(int status, String resultCode, String message, Object data) {
+        return ServerResponse.status(status)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(Mono.just(fail(errorCode.name(), errorCode.getMessage(), data)), CommonResponse.class);
+                .body(Mono.just(build(resultCode, message, data)), CommonResponse.class);
     }
 
-    private static CommonResponse<Object> fail(String resultCode, String message, Object data) {
+    private static CommonResponse<Object> build(String resultCode, String message, Object data) {
         return CommonResponse.builder()
                 .resultCode(resultCode)
                 .message(message)

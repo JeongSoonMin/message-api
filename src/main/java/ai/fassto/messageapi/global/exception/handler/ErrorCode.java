@@ -4,13 +4,18 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
-    BAD_REQUEST_EXCEPTION(400, "잘못된 요청입니다.");
+    BAD_REQUEST_EXCEPTION(400, "WARN", "잘못된 요청입니다."),
+    INTERNAL_SERVER_ERROR(500, "ERROR", "서버 오류가 발생하였습니다."),
+
+    SAMPLE_NOT_FOUND(400, "WARN", "샘플 정보가 없습니다.");
 
     private final int status;
+    private final String errorLevel;
     private final String message;
 
-    ErrorCode(int status, String message) {
+    ErrorCode(int status, String errorLevel, String message) {
         this.status = status;
+        this.errorLevel = errorLevel;
         this.message = message;
     }
 }

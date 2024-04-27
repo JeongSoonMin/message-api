@@ -6,13 +6,13 @@ public record SampleRequest(
 
 ) {
     public record SampleAddRequest(
-            String name,
-            String desc
+            String sampleName,
+            String sampleDescription
     ) {
         public Sample toSampleEntity() {
             return Sample.builder()
-                    .name(this.name)
-                    .desc(this.desc)
+                    .name(this.sampleName)
+                    .desc(this.sampleDescription)
                     .build();
         }
     }

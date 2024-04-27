@@ -1,4 +1,4 @@
-package ai.fassto.messageapi.global.configuration;
+package ai.fassto.messageapi.global.configuration.properties;
 
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Bean;
