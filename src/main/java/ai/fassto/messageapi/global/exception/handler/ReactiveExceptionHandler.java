@@ -81,6 +81,7 @@ public class ReactiveExceptionHandler extends AbstractErrorWebExceptionHandler {
                 resultCode = httpStatus.name();
 
                 log.error("[Exception] {}", message);
+                message = ErrorCode.INTERNAL_SERVER_ERROR.getMessage();
             }
         }
 

@@ -1,6 +1,5 @@
 package ai.fassto.messageapi.entity;
 
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @Builder
-public class Sample implements Serializable {
+public class Sample {
     @Id
     @Generated
     private String id;

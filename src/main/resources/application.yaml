@@ -8,3 +8,10 @@ spring:
     exclude: org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration,org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
   profiles:
     active: local
+# actuator 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, refresh
+      base-path: /management

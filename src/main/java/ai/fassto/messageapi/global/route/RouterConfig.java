@@ -2,6 +2,7 @@ package ai.fassto.messageapi.global.route;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
+import ai.fassto.messageapi.handler.EmailHandler;
 import ai.fassto.messageapi.handler.SampleHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,14 @@ public class RouterConfig {
                 .POST("/sample", accept(MediaType.APPLICATION_JSON), handler::sampleAdd)
                 .PUT("/sample/{sampleId}", accept(MediaType.APPLICATION_JSON), handler::sampleModify)
                 .DELETE("/sample/{sampleId}", accept(MediaType.APPLICATION_JSON), handler::sampleRemove)
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> sampleRouter(EmailHandler handler) {
+        return RouterFunctions.route()
+                .GET("/email/send", accept(MediaType.APPLICATION_JSON), handler::emailSendRequestList)
+                .POST("/email/send", accept(MediaType.APPLICATION_JSON), handler::emailSendRequest)
                 .build();
     }
 }

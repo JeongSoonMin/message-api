@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.ReactiveMongoDatabaseFactory;
 import org.springframework.data.mongodb.ReactiveMongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
+import org.springframework.data.mongodb.config.EnableReactiveMongoAuditing;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.transaction.ReactiveTransactionManager;
 import org.springframework.transaction.reactive.TransactionalOperator;
@@ -23,6 +24,7 @@ import org.springframework.transaction.reactive.TransactionalOperator;
 @Configuration
 @EnableReactiveMongoRepositories(basePackages = "ai.fassto.messageapi.repository")
 @RequiredArgsConstructor
+@EnableReactiveMongoAuditing
 public class MongoConfig extends AbstractReactiveMongoConfiguration {
 
     private final BaseMongoProperties baseMongoProperties;
@@ -40,7 +42,7 @@ public class MongoConfig extends AbstractReactiveMongoConfiguration {
         return MongoClientSettings.builder()
                 .readConcern(ReadConcern.DEFAULT)
                 .writeConcern(WriteConcern.MAJORITY)
-                .readPreference(ReadPreference.secondary())
+                .readPreference(ReadPreference.primary())
                 .credential(credential)
                 .applyToSslSettings(builder ->
                         builder.enabled(false)

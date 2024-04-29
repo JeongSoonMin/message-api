@@ -12,8 +12,8 @@ import ai.fassto.messageapi.model.SampleResponse.SampleModifyResponse;
 import ai.fassto.messageapi.repository.SampleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -25,10 +25,12 @@ public class SampleHandler {
 
     private final SampleRepository sampleRepository;
 
+    @Transactional(readOnly = true)
     public Mono<ServerResponse> sampleList(ServerRequest request) {
         return CommonResponse.ok(sampleRepository.findAll());
     }
 
+    @Transactional
     public Mono<ServerResponse> sampleAdd(ServerRequest request) {
         return CommonResponse.ok(
                 request.bodyToMono(SampleAddRequest.class)
@@ -38,6 +40,7 @@ public class SampleHandler {
         );
     }
 
+    @Transactional
     public Mono<ServerResponse> sampleModify(ServerRequest request) {
         Mono<Sample> sampleMono = sampleRepository.findById(request.pathVariable("sampleId"))
                 .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND)));
@@ -60,12 +63,14 @@ public class SampleHandler {
         );
     }
 
+    @Transactional
     public Mono<ServerResponse> sampleRemove2(ServerRequest request) {
         String id = request.pathVariable("sampleId");
         return CommonResponse.okVoid(sampleRepository.deleteById(id)
                 .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND))));
     }
 
+    @Transactional
     public Mono<ServerResponse> sampleRemove(ServerRequest request) {
         return sampleRepository.findById(request.pathVariable("sampleId"))
                 .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND, new SampleResponse.SampleRemoveResponse(request.pathVariable("sampleId")))))
