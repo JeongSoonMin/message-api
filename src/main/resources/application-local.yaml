@@ -4,10 +4,10 @@ application:
       database: base
       username: base
       password: base1234!@
-      write:
+      primary:
         host: localhost
         port: 27017
-      read-only:
+      secondary:
         host: localhost
         port: 27018
 spring:

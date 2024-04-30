@@ -51,11 +51,11 @@ public class MongoConfig extends AbstractReactiveMongoConfiguration {
                 .applyToClusterSettings(builder ->
                         builder.hosts(
                                 Arrays.asList(
-                                        new ServerAddress(baseMongoProperties.getWrite().getHost(),
-                                                baseMongoProperties.getWrite().getPort())
+                                        new ServerAddress(baseMongoProperties.getPrimary().getHost(),
+                                                baseMongoProperties.getPrimary().getPort())
                                         , new ServerAddress(
-                                                baseMongoProperties.getReadOnly().getHost(),
-                                                baseMongoProperties.getReadOnly().getPort())
+                                                baseMongoProperties.getSecondary().getHost(),
+                                                baseMongoProperties.getSecondary().getPort())
                                 )
                         ))
                 .build();

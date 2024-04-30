@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "application.mongodb.base-cluster")
 @Data
 public class BaseMongoProperties {
-    private MongoProperties write;
-    private MongoProperties readOnly;
+    private MongoProperties primary;
+    private MongoProperties secondary;
     private String database;
     private String username;
     private String password;
