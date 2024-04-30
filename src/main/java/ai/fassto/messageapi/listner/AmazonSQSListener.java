@@ -1,6 +1,6 @@
 package ai.fassto.messageapi.listner;
 
-import ai.fassto.messageapi.model.EmailSendQueue;
+import ai.fassto.messageapi.model.queue.EmailSendQueue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.annotation.SqsListener;
 import io.awspring.cloud.sqs.listener.acknowledgement.Acknowledgement;

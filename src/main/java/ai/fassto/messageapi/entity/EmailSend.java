@@ -1,7 +1,7 @@
 package ai.fassto.messageapi.entity;
 
 import ai.fassto.messageapi.model.EmailRequest.EmailSendRequest;
-import ai.fassto.messageapi.model.EmailSendQueue;
+import ai.fassto.messageapi.model.queue.EmailSendQueue;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

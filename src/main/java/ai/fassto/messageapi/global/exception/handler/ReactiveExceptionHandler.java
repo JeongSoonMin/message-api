@@ -52,7 +52,7 @@ public class ReactiveExceptionHandler extends AbstractErrorWebExceptionHandler {
         Object data = null;
         String message = throwable.getMessage();
         int status = 500;
-        String errorLevel = "ERROR";
+        String logLevel = "ERROR";
         String resultCode = HttpStatus.INTERNAL_SERVER_ERROR.name();
 
         switch (throwable) {
@@ -62,12 +62,12 @@ public class ReactiveExceptionHandler extends AbstractErrorWebExceptionHandler {
                 if (!Objects.isNull(ex.getErrorCode())) {
                     status = ex.getErrorCode().getStatus();
                     resultCode = ex.getErrorCode().name();
-                    errorLevel = ex.getErrorCode().getErrorLevel();
+                    logLevel = ex.getErrorCode().getLogLevel();
                 }
 
-                if ("WARN".equals(errorLevel)) {
+                if ("WARN".equals(logLevel)) {
                     log.warn("[BaseException] {}", message);
-                } else if ("ERROR".equals(errorLevel)) {
+                } else if ("ERROR".equals(logLevel)) {
                     log.error("[BaseException] {}", message);
                 }
             }

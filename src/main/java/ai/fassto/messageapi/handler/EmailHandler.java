@@ -4,7 +4,7 @@ import ai.fassto.messageapi.entity.EmailSend;
 import ai.fassto.messageapi.global.configuration.properties.AmazonSQSProperties;
 import ai.fassto.messageapi.model.CommonResponse;
 import ai.fassto.messageapi.model.EmailRequest.EmailSendRequest;
-import ai.fassto.messageapi.model.EmailSendQueue;
+import ai.fassto.messageapi.model.queue.EmailSendQueue;
 import ai.fassto.messageapi.repository.EmailSendRequestRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

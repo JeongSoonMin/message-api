@@ -1,4 +1,4 @@
-package ai.fassto.messageapi.model;
+package ai.fassto.messageapi.model.queue;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
