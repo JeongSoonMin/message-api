@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class AmazonSQSListener {
 
-    private ObjectMapper om = new ObjectMapper();
+    private final ObjectMapper om = new ObjectMapper();
 
     @SqsListener(value = "${spring.cloud.aws.sqs.email-send}")
     public void emailSending(String message, Acknowledgement acknowledgement) {

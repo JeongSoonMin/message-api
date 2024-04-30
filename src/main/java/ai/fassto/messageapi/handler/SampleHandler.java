@@ -1,7 +1,7 @@
 package ai.fassto.messageapi.handler;
 
 import ai.fassto.messageapi.entity.Sample;
-import ai.fassto.messageapi.global.exception.SampleException;
+import ai.fassto.messageapi.global.exception.BaseException;
 import ai.fassto.messageapi.global.exception.handler.ErrorCode;
 import ai.fassto.messageapi.model.CommonResponse;
 import ai.fassto.messageapi.model.SampleRequest.SampleAddRequest;
@@ -43,7 +43,7 @@ public class SampleHandler {
     @Transactional
     public Mono<ServerResponse> sampleModify(ServerRequest request) {
         Mono<Sample> sampleMono = sampleRepository.findById(request.pathVariable("sampleId"))
-                .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND)));
+                .switchIfEmpty(Mono.error(new BaseException(ErrorCode.SAMPLE_NOT_FOUND)));
         Mono<SampleModifyRequest> sampleModifyRequestMono = request.bodyToMono(SampleModifyRequest.class);
 
         return CommonResponse.ok(Mono.zip(
@@ -67,13 +67,13 @@ public class SampleHandler {
     public Mono<ServerResponse> sampleRemove2(ServerRequest request) {
         String id = request.pathVariable("sampleId");
         return CommonResponse.okVoid(sampleRepository.deleteById(id)
-                .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND))));
+                .switchIfEmpty(Mono.error(new BaseException(ErrorCode.SAMPLE_NOT_FOUND))));
     }
 
     @Transactional
     public Mono<ServerResponse> sampleRemove(ServerRequest request) {
         return sampleRepository.findById(request.pathVariable("sampleId"))
-                .switchIfEmpty(Mono.error(new SampleException(ErrorCode.SAMPLE_NOT_FOUND, new SampleResponse.SampleRemoveResponse(request.pathVariable("sampleId")))))
+                .switchIfEmpty(Mono.error(new BaseException(ErrorCode.SAMPLE_NOT_FOUND, new SampleResponse.SampleRemoveResponse(request.pathVariable("sampleId")))))
                 .map(sampleRepository::delete)
                 .then(CommonResponse.ok());
     }

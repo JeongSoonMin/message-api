@@ -25,7 +25,7 @@ public class RouterConfig {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> sampleRouter(EmailHandler handler) {
+    public RouterFunction<ServerResponse> emailRouterFunction(EmailHandler handler) {
         return RouterFunctions.route()
                 .GET("/email/send", accept(MediaType.APPLICATION_JSON), handler::emailSendRequestList)
                 .POST("/email/send", accept(MediaType.APPLICATION_JSON), handler::emailSendRequest)

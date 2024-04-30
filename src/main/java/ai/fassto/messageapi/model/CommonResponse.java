@@ -1,6 +1,5 @@
 package ai.fassto.messageapi.model;
 
-import ai.fassto.messageapi.global.exception.handler.ErrorCode;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
