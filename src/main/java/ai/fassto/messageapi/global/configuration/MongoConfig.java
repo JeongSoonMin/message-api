@@ -22,7 +22,7 @@ import org.springframework.transaction.ReactiveTransactionManager;
 import org.springframework.transaction.reactive.TransactionalOperator;
 
 @Configuration
-@EnableReactiveMongoRepositories(basePackages = "ai.fassto.messageapi.repository")
+@EnableReactiveMongoRepositories(basePackages = "ai.fassto.messageapi.persistence")
 @RequiredArgsConstructor
 @EnableReactiveMongoAuditing
 public class MongoConfig extends AbstractReactiveMongoConfiguration {

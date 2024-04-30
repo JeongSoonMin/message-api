@@ -9,7 +9,7 @@ import ai.fassto.messageapi.model.SampleRequest.SampleModifyRequest;
 import ai.fassto.messageapi.model.SampleResponse;
 import ai.fassto.messageapi.model.SampleResponse.SampleAddResponse;
 import ai.fassto.messageapi.model.SampleResponse.SampleModifyResponse;
-import ai.fassto.messageapi.repository.SampleRepository;
+import ai.fassto.messageapi.persistence.SampleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

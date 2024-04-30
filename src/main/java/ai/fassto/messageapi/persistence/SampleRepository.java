@@ -1,4 +1,4 @@
-package ai.fassto.messageapi.repository;
+package ai.fassto.messageapi.persistence;
 
 import ai.fassto.messageapi.entity.Sample;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
