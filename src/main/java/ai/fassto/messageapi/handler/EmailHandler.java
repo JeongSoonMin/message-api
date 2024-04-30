@@ -11,6 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -31,7 +34,16 @@ public class EmailHandler {
 
     @Transactional(readOnly = true)
     public Mono<ServerResponse> emailSendRequestList(ServerRequest request) {
-        return CommonResponse.ok(emailSendRequestRepository.findAll());
+        int page = request.queryParam("page").isPresent() ? Integer.parseInt(request.queryParam("page").get()) - 1 : 0;
+        int size = request.queryParam("pagesize").isPresent() ? Integer.parseInt(request.queryParam("pagesize").get()) : 20;
+
+        Pageable pageable = PageRequest.of(page, size);
+        return CommonResponse.ok(
+                emailSendRequestRepository.findAllBy(pageable)
+                        .collectList()
+                        .zipWith(emailSendRequestRepository.count())
+                        .map(p -> new PageImpl<>(p.getT1(), pageable, p.getT2()))
+        );
     }
 
     @Transactional
