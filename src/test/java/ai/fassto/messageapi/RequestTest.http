@@ -1,0 +1,17 @@
+### 이메일 발송 목록 조회
+GET http://localhost:9900/email/send
+Accept: application/json
+
+### 이메일 발송
+POST http://localhost:9900/email/send
+Accept: application/json
+Content-Type: application/json
+
+{
+    "templateName": "TEST_TEMPLATE",
+    "senderEmail": "testemail@test.com",
+    "senderName": "홍길동",
+    "receiverEmail": "testreceive@test.com",
+    "receiverName": "춘향이",
+    "reqUserName": "이몽룡"
+}
