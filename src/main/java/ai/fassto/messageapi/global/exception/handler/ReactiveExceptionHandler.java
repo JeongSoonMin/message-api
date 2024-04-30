@@ -66,7 +66,8 @@ public class ReactiveExceptionHandler extends AbstractErrorWebExceptionHandler {
                 if ("WARN".equals(logLevel)) {
                     log.warn("[BaseException] {}", message);
                 } else if ("ERROR".equals(logLevel)) {
-                    log.error("[BaseException] {}", message);
+                    // 5xx 에러의 경우 Mono<ServerResponse> 내부에서 로깅 처리하기 때문에 별도 로깅 하지 않음.
+//                    log.error("[BaseException] {}", message);
                 }
             }
             default -> {
@@ -78,8 +79,13 @@ public class ReactiveExceptionHandler extends AbstractErrorWebExceptionHandler {
                 status = httpStatus.value();
                 resultCode = httpStatus.name();
 
-                log.error("[Exception] {}", message);
-                message = ErrorCode.INTERNAL_SERVER_ERROR.getMessage();
+                if (httpStatus.is4xxClientError()) {
+                    log.warn("[Exception] {}", message);
+                } else if (httpStatus.is5xxServerError()) {
+                    // 5xx 에러의 경우 Mono<ServerResponse> 내부에서 로깅 처리하기 때문에 별도 로깅 하지 않음.
+//                    log.error("[Exception] {}", message);
+                }
+                message = ErrorCode.INTERNAL_SERVER_ERROR.getMessage(); // 공통 서버 오류 메시지로 response 처리
             }
         }
 
