@@ -8,6 +8,13 @@ spring:
     exclude: org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration,org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
   profiles:
     active: local
+  cloud:
+    aws:
+      credentials:
+        profile:
+          name: default
+      region:
+        static: ap-northeast-2
 # actuator 설정
 management:
   endpoints:

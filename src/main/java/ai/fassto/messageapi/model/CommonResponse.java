@@ -50,7 +50,8 @@ public class CommonResponse<T> {
     }
 
     private static Mono<CommonResponse<Object>> toSuccessCommonResponse(Mono<?> tMono) {
-        return tMono.map(CommonResponse::success);
+        return tMono.map(CommonResponse::success)
+                .switchIfEmpty(Mono.just(CommonResponse.success(null)));
     }
 
     private static Mono<CommonResponse<Object>> toSuccessCommonResponseVoid(Mono<Void> tMono) {

@@ -1,4 +1,3 @@
-
 application:
   mongodb:
     base-cluster:
@@ -11,3 +10,8 @@ application:
       read-only:
         host: localhost
         port: 27018
+spring:
+  cloud:
+    aws:
+      sqs:
+        email-send: email-send-queue-dev

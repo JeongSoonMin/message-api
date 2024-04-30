@@ -1,6 +1,7 @@
 package ai.fassto.messageapi.entity;
 
 import ai.fassto.messageapi.model.EmailRequest.EmailSendRequest;
+import ai.fassto.messageapi.model.EmailSendQueue;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,5 +48,17 @@ public class EmailSend {
                         .attachFilePath(emailSendRequest.attachFilePath())
                         .regUserName(emailSendRequest.reqUserName())
                         .build();
+        }
+
+        public EmailSendQueue toQueuePayload() {
+                return new EmailSendQueue(
+                        this.id,
+                        this.templateName,
+                        this.senderEmail,
+                        this.senderName,
+                        this.receiverEmail,
+                        this.receiverName,
+                        this.attachFilePath
+                );
         }
 }
