@@ -10,4 +10,5 @@ import org.springframework.context.annotation.Configuration;
 public class AmazonSQSProperties {
 
     private String emailSend;
+    private String emailBounce;
 }

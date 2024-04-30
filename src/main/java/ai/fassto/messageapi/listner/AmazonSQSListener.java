@@ -13,7 +13,7 @@ public class AmazonSQSListener {
 
     private final ObjectMapper om = new ObjectMapper();
 
-    @SqsListener(value = "${spring.cloud.aws.sqs.email-send}")
+    @SqsListener(value = "${spring.cloud.aws.sqs.email-bounce}")
     public void emailSending(String message, Acknowledgement acknowledgement) {
         log.info("[Queue 수신 처리] message : {}", message);
 
@@ -28,5 +28,4 @@ public class AmazonSQSListener {
         acknowledgement.acknowledge(); // 수신 된 메시지 ack 처리.
         log.info("[Queue 수신 변환] emailSendQueue : {}", emailSendQueue);
     }
-
 }
