@@ -1,6 +1,7 @@
 package ai.fassto.messageapi.global.exception;
 
 import ai.fassto.messageapi.global.exception.handler.ErrorCode;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Getter;
 
 @Getter
@@ -23,6 +24,12 @@ public class BaseException extends RuntimeException {
 
     public BaseException(ErrorCode errorCode, Object data) {
         super(errorCode.getMessage());
+        this.errorCode = errorCode;
+        this.data = data;
+    }
+
+    public BaseException(ErrorCode errorCode, Object data, String message) {
+        super(message);
         this.errorCode = errorCode;
         this.data = data;
     }

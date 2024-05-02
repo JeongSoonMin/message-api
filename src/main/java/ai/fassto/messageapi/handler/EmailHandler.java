@@ -2,6 +2,8 @@ package ai.fassto.messageapi.handler;
 
 import ai.fassto.messageapi.entity.EmailSend;
 import ai.fassto.messageapi.global.configuration.properties.AmazonSQSProperties;
+import ai.fassto.messageapi.global.exception.BaseException;
+import ai.fassto.messageapi.global.exception.handler.ErrorCode;
 import ai.fassto.messageapi.model.CommonResponse;
 import ai.fassto.messageapi.model.EmailRequest.EmailSendRequest;
 import ai.fassto.messageapi.model.queue.EmailSendQueue;
@@ -59,7 +61,7 @@ public class EmailHandler {
                             try {
                                 payload = om.writeValueAsString(emailSendQueuePayload);
                             } catch (JsonProcessingException e) {
-                                throw new RuntimeException(e);
+                                throw new BaseException(ErrorCode.INTERNAL_SERVER_ERROR, null, e.getMessage());
                             }
                             log.info("queueing email send request {}", payload);
                             sqsTemplate.send(to -> to.queue(amazonSQSProperties.getEmailSend())
