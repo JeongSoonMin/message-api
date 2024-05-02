@@ -14,6 +14,31 @@ Meessage-api Application
 * SES와 연결까지 serverless만 구성하거나, SpringBoot Application 구성만으로도 가능하나, 기술 적용 테스트를 위한 아키텍처 구성 함.
 * 실질적으로는 불필요한 구성이 포함 됨.
 
+## 로컬 개발 환경시 셋팅 필요 사항
+* AWS Credential 셋팅 필요 
+1. aws-cli 설치 필요
+<pre><code>
+// aws-cli 설치
+$ brew install aws-cli
+</code></pre>
+2. aws configure
+<pre><code>
+$ aws configure
+AWS Access Key ID [None]: XXXXXXXXXXXX
+AWS Secret Access Key [None]: XXXXXXXXXXXXXXXXXXXXXXXXXX
+Default region name [None]: ap-northeast-2
+Default output format [None]: json
+</code></pre>
+3. config 확인
+<pre><code>
+$ cat .aws/credentials
+$ cat .aws/config
+
+OR
+
+$ aws configure list
+</code></pre>
+
 ## 개발 사항
 * Sample CRUD
 * Email 발송 목록 조회
@@ -30,4 +55,3 @@ Meessage-api Application
 * 10% 이상 일 경우, 불법적인 스팸 메일 발송으로 간주 됨.
 * 다시 활성화 필요시, AWS 측에 별도 요청 필요.
 * 반송 Email 처리 된 내용 기준으로, 발송 요청이 되지 않도록 발송 제외 처리 필요. 안정적인 운영을 위해 최소 5% 이내로 정상 발송 비율 5% 이내로 유지 필요.
-
